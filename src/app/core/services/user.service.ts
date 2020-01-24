@@ -38,7 +38,7 @@ export class UserService {
     }
   }
 
-  setAuth(user: User) {
+  private setAuth(user: User) {
     // Save JWT sent from server in localstorage
     this.jwtService.saveToken(user.token);
     // Set current user data into observable
