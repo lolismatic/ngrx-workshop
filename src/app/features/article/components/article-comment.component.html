@@ -15,7 +15,7 @@
     <span class="date-posted">
       {{ comment.createdAt | date: 'longDate' }}
     </span>
-    <span class="mod-options" [hidden]="!canModify">
+    <span class="mod-options" [hidden]="!(canModify$ | async)">
       <i class="ion-trash-a" (click)="deleteClicked()"></i>
     </span>
   </div>
