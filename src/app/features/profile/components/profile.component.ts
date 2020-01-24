@@ -16,7 +16,6 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   profile: Profile;
-  currentUser: User;
   isUser: boolean;
 
   ngOnInit() {
@@ -26,8 +25,7 @@ export class ProfileComponent implements OnInit {
         // Load the current user's data.
         return this.userService.currentUser.pipe(tap(
           (userData: User) => {
-            this.currentUser = userData;
-            this.isUser = (this.currentUser.username === this.profile.username);
+            this.isUser = (userData.username === this.profile.username);
           }
         ));
       })
