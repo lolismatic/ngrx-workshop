@@ -62,6 +62,7 @@
 
       <li class="nav-item">
         <a class="nav-link"
+          *ngIf="currentUser$ | async as currentUser"
           [routerLink]="['/profile', currentUser.username]"
           routerLinkActive="active">
           <img [src]="currentUser.image" *ngIf="currentUser.image" class="user-pic" />
