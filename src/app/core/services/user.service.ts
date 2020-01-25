@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable ,  BehaviorSubject ,  ReplaySubject } from 'rxjs';
-import { map, distinctUntilChanged } from 'rxjs/operators';
+import { map, distinctUntilChanged, tap } from 'rxjs/operators';
 
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
@@ -56,15 +56,23 @@ export class UserService {
     return this.apiService.post('/users/login', {user});
   }
 
+  private updateUser(user: User): Observable<User> {
+    return this.apiService
+      .put('/user', { user })
+      .pipe(
+        map(data => data.user as User)
+      );
+  }
+
   // Update the user on the server (email, pass, etc)
   update(user): Observable<User> {
-    return this.apiService
-    .put('/user', { user })
-    .pipe(map(data => {
-      // Update the currentUser observable
-      this.currentUserSubject.next(data.user);
-      return data.user;
-    }));
+    return this.updateUser(user)
+    .pipe(
+      tap((savedUser) => {
+        // Update the currentUser observable
+        this.currentUserSubject.next(savedUser);
+      })
+    );
   }
 
 }
