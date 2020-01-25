@@ -31,14 +31,6 @@ export class UserService {
     this.isAuthenticatedSubject.next(true);
   }
 
-  fetchUser() {
-    return this.apiService
-      .get('/user')
-      .pipe(
-        map((data) => data.user as User)
-      );
-  }
-
   purgeAuth() {
     // Remove JWT from localstorage
     this.jwtService.destroyToken();
@@ -46,6 +38,14 @@ export class UserService {
     this.currentUserSubject.next({} as User);
     // Set auth status to false
     this.isAuthenticatedSubject.next(false);
+  }
+
+  fetchUser() {
+    return this.apiService
+      .get('/user')
+      .pipe(
+        map((data) => data.user as User)
+      );
   }
 
   register(user: RegisterCredentials): Observable<User> {
