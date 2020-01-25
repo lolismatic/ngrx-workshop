@@ -5,10 +5,10 @@
 
         <h1 class="text-xs-center">Your Settings</h1>
 
-        <app-list-errors [errors]="errors"></app-list-errors>
+        <app-list-errors *ngIf="settingsForm.hasError()" [errors]="settingsForm.errors"></app-list-errors>
 
         <form [formGroup]="settingsForm" (ngSubmit)="submitForm()">
-          <fieldset [disabled]="isSubmitting">
+          <fieldset>
 
             <fieldset class="form-group">
               <input class="form-control"

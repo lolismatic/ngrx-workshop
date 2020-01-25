@@ -60,23 +60,12 @@ export class UserService {
       .pipe(map((data) => data.user));
   }
 
-  private updateUser(user: User): Observable<User> {
+  updateUser(user: User): Observable<User> {
     return this.apiService
       .put('/user', { user })
       .pipe(
         map(data => data.user as User)
       );
-  }
-
-  // Update the user on the server (email, pass, etc)
-  update(user): Observable<User> {
-    return this.updateUser(user)
-    .pipe(
-      tap((savedUser) => {
-        // Update the currentUser observable
-        this.currentUserSubject.next(savedUser);
-      })
-    );
   }
 
 }

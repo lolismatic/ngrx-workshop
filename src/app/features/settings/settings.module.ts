@@ -13,6 +13,6 @@ import { SettingsRoutingModule } from './settings-routing.module';
   ],
   declarations: [
     ...COMPONENTS,
-  ]
+  ],
 })
 export class SettingsModule {}
