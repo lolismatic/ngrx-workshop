@@ -49,11 +49,15 @@ export class UserService {
   }
 
   register(user: RegisterCredentials): Observable<User> {
-    return this.apiService.post('/users', {user});
+    return this.apiService
+      .post('/users', {user})
+      .pipe(map((data) => data.user));
   }
 
   login(user: LoginCredentials): Observable<User> {
-    return this.apiService.post('/users/login', {user});
+    return this.apiService
+      .post('/users/login', {user})
+      .pipe(map((data) => data.user));
   }
 
   private updateUser(user: User): Observable<User> {
