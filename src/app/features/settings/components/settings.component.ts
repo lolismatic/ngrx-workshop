@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { UserService } from '@app/services';
 import { User } from '@app/models';
+import { authActions } from 'app/core/store/actions';
 
 @Component({
   selector: 'app-settings-page',
@@ -18,7 +20,8 @@ export class SettingsComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private store: Store<any>,
   ) {
     // create form group using the form builder
     this.settingsForm = this.fb.group({
@@ -42,8 +45,7 @@ export class SettingsComponent implements OnInit {
   }
 
   logout() {
-    this.userService.purgeAuth();
-    this.router.navigateByUrl('/');
+    this.store.dispatch(authActions.logout());
   }
 
   submitForm() {

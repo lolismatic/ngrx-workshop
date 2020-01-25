@@ -4,6 +4,7 @@ import { tap } from 'rxjs/operators';
 
 import { JwtService, UserService } from '../../services';
 import { authActions } from '../actions';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
@@ -27,9 +28,20 @@ export class AuthEffects {
     );
   }, { dispatch: false });
 
+  logout = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(authActions.logout),
+      tap(() => {
+        this.userService.purgeAuth();
+        this.router.navigateByUrl('/');
+      }),
+    );
+  }, { dispatch: false });
+
   constructor(
     private actions$: Actions,
     private jwtService: JwtService,
     private userService: UserService,
+    private router: Router,
   ) { }
 }
