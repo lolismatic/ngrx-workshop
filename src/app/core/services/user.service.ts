@@ -27,11 +27,11 @@ export class UserService {
   populate() {
     // If JWT detected, attempt to get & store user's info
     if (this.jwtService.getToken()) {
-      this.apiService.get('/user')
-      .subscribe(
-        data => this.setAuth(data.user),
-        err => this.purgeAuth()
-      );
+      this.fetchUser()
+        .subscribe(
+          data => this.setAuth(data.user),
+          err => this.purgeAuth()
+        );
     } else {
       // Remove any potential remnants of previous auth states
       this.purgeAuth();
@@ -45,6 +45,10 @@ export class UserService {
     this.currentUserSubject.next(user);
     // Set isAuthenticated to true
     this.isAuthenticatedSubject.next(true);
+  }
+
+  private fetchUser() {
+    return this.apiService.get('/user');
   }
 
   purgeAuth() {
