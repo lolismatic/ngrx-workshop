@@ -5,7 +5,7 @@ import { map, distinctUntilChanged } from 'rxjs/operators';
 
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
-import { User } from '../models';
+import { User, RegisterCredentials, LoginCredentials } from '../models';
 
 
 @Injectable()
@@ -48,15 +48,12 @@ export class UserService {
     this.isAuthenticatedSubject.next(false);
   }
 
-  attemptAuth(type, credentials): Observable<User> {
-    const route = (type === 'login') ? '/login' : '';
-    return this.apiService.post('/users' + route, {user: credentials})
-      .pipe(map(
-      data => {
-        this.setAuth(data.user);
-        return data;
-      }
-    ));
+  register(user: RegisterCredentials): Observable<User> {
+    return this.apiService.post('/users', {user});
+  }
+
+  login(user: LoginCredentials): Observable<User> {
+    return this.apiService.post('/users/login', {user});
   }
 
   // Update the user on the server (email, pass, etc)
