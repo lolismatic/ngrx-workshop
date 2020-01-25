@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable ,  BehaviorSubject ,  ReplaySubject } from 'rxjs';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
 import { User } from '../models';
-import { map ,  distinctUntilChanged } from 'rxjs/operators';
 
 
 @Injectable()
@@ -22,23 +22,7 @@ export class UserService {
     private jwtService: JwtService
   ) {}
 
-  // Verify JWT in localstorage with server & load user's info.
-  // This runs once on application startup.
-  populate() {
-    // If JWT detected, attempt to get & store user's info
-    if (this.jwtService.getToken()) {
-      this.fetchUser()
-        .subscribe(
-          data => this.setAuth(data.user),
-          err => this.purgeAuth()
-        );
-    } else {
-      // Remove any potential remnants of previous auth states
-      this.purgeAuth();
-    }
-  }
-
-  private setAuth(user: User) {
+  setAuth(user: User) {
     // Save JWT sent from server in localstorage
     this.jwtService.saveToken(user.token);
     // Set current user data into observable
@@ -47,8 +31,12 @@ export class UserService {
     this.isAuthenticatedSubject.next(true);
   }
 
-  private fetchUser() {
-    return this.apiService.get('/user');
+  fetchUser() {
+    return this.apiService
+      .get('/user')
+      .pipe(
+        map((data) => data.user as User)
+      );
   }
 
   purgeAuth() {

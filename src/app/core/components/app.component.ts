@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
-import { UserService } from '../services';
+import { authActions } from '../store/actions';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,10 @@ import { UserService } from '../services';
 })
 export class AppComponent implements OnInit {
   constructor (
-    private userService: UserService
+    private store: Store<any>,
   ) {}
 
   ngOnInit() {
-    this.userService.populate();
+    this.store.dispatch(authActions.populate());
   }
 }
