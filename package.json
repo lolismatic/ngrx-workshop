@@ -29,7 +29,7 @@
     "@ngrx/store": "^8.6.0",
     "@ngrx/store-devtools": "^8.6.0",
     "core-js": "^2.4.1",
-    "marked": "^0.3.9",
+    "marked": "^4.0.10",
     "rxjs": "^6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
